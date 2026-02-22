@@ -68,6 +68,7 @@ model Job {
   city        String
   budget      Decimal
   urgency     String    @default("Standard")
+  description String    @db.Text   // <-- This is the newly added line!
   status      JobStatus @default(OPEN)
   createdAt   DateTime  @default(now())
   
