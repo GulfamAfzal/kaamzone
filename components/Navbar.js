@@ -1,69 +1,109 @@
-// components/Navbar.js
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
-import { auth, signOut } from '../auth.js';
+import { usePathname } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
-export default async function Navbar() {
-  const session = await auth();
+export default function Navbar({ session }) {
+  const pathname = usePathname();
 
   return (
-    <nav className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <nav className="bg-emerald-950 border-b border-white/10 sticky top-0 z-50 shadow-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           
-          {/* Left: Logo and Brand */}
+          {/* 1. LOGO SECTION */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-2">
-              <Image 
-                src="/logo.jpg" 
-                alt="KaamZone Logo" 
-                width={40} 
-                height={40} 
-                className="rounded-md"
-              />
-              <span className="text-2xl font-bold text-emerald-600 tracking-tight">
-                Kaam<span className="text-gold-500">Zone</span>
-              </span>
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-white shadow-inner flex items-center justify-center border border-white/20">
+                <Image 
+                  src="/logo.jpg" 
+                  alt="KaamZone Logo" 
+                  width={40}
+                  height={40}
+                  className="object-contain group-hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-2xl font-black text-white leading-none tracking-tighter">
+                  KAAM<span className="text-amber-400">ZONE</span>
+                </span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-emerald-400 font-bold">
+                  Verified Marketplace
+                </span>
+              </div>
             </Link>
           </div>
 
-          {/* Right: Actions and Profile [cite: 379] */}
+          {/* 2. CENTRAL NAVIGATION */}
+          <div className="hidden md:flex items-center bg-emerald-900/50 rounded-2xl p-1.5 border border-white/5">
+            {[
+              { name: 'Home', href: '/' },
+              { name: 'Browse Jobs', href: '/jobs' },
+              { name: 'Find Workers', href: '/workers' }
+            ].map((link) => (
+              <Link 
+                key={link.name}
+                href={link.href} 
+                className={`px-6 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${
+                  pathname === link.href 
+                  ? 'bg-emerald-600 text-white shadow-md' 
+                  : 'text-emerald-100 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          {/* 3. USER ACTIONS */}
           <div className="flex items-center gap-4">
-            
-            {/* Bilingual Toggle Placeholder */}
-            <button className="text-sm font-semibold text-slate-500 hover:text-emerald-600 hidden sm:block">
-              EN / اردو
-            </button>
+            {/* Status Badge */}
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-emerald-900/80 rounded-full border border-emerald-700/50 text-[10px] font-bold text-amber-400">
+               <span className="relative flex h-2 w-2">
+                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                 <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+               </span>
+               LIVE: PAKISTAN
+            </div>
 
-            {/* Voice Mode Toggle (with animate-pulse as requested) */}
-            <button className="text-emerald-500 hover:text-emerald-600 animate-pulse hidden sm:block" title="Voice Mode">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 18.5a6.5 6.5 0 000-13v13z"></path>
-              </svg>
-            </button>
-
-            {/* Auth Logic */}
-            {session?.user ? (
-              <div className="flex items-center gap-4">
-                <Link href="/dashboard" className="text-sm font-semibold text-slate-700 hover:text-emerald-600">
-                  Dashboard
+            {session ? (
+              <div className="flex items-center gap-3">
+                {/* Dashboard Button with High Contrast Text */}
+                <Link 
+                  href="/dashboard/client" 
+                  className="bg-amber-400 hover:bg-amber-300 text-emerald-950 font-black px-6 py-2.5 rounded-xl text-xs tracking-wider transition-all shadow-[0_0_15px_rgba(251,191,36,0.2)] active:scale-95 border-b-4 border-amber-600 hover:border-amber-500"
+                >
+                  DASHBOARD
                 </Link>
-                <form action={async () => {
-                  'use server';
-                  await signOut({ redirectTo: '/login' });
-                }}>
-                  <button className="bg-slate-100 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-red-50 hover:text-red-600 transition">
-                    Log Out
-                  </button>
-                </form>
+
+                {/* Professional Logout Button */}
+                <button 
+                  onClick={() => signOut({ callbackUrl: '/login' })}
+                  className="flex items-center justify-center w-11 h-11 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 group"
+                  title="Logout"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                  </svg>
+                </button>
               </div>
             ) : (
-              <Link href="/login" className="bg-emerald-600 text-white px-5 py-2 rounded-lg text-sm font-bold hover:bg-emerald-700 transition shadow-sm">
-                Log In
-              </Link>
+              <div className="flex items-center gap-3">
+                <Link href="/login" className="text-emerald-100 font-bold text-sm px-4 hover:text-white transition">
+                  Login
+                </Link>
+                <Link 
+                  href="/register" 
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-7 py-3 rounded-2xl text-sm transition shadow-xl border border-white/10"
+                >
+                  Join Now
+                </Link>
+              </div>
             )}
-
           </div>
+
         </div>
       </div>
     </nav>
