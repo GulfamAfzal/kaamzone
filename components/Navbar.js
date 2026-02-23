@@ -16,13 +16,15 @@ export default function Navbar({ session }) {
           {/* 1. LOGO SECTION */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-white shadow-inner flex items-center justify-center border border-white/20">
+              {/* Decreased box size slightly (w-11 h-11) and kept rounded edges */}
+              <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-white shadow-inner flex items-center justify-center border border-white/20">
                 <Image 
                   src="/logo.jpg" 
                   alt="KaamZone Logo" 
-                  width={40}
-                  height={40}
-                  className="object-contain group-hover:scale-110 transition-transform duration-300"
+                  width={48}
+                  height={48}
+                  // Increased internal scale to 115% for that "very little bit" zoom
+                  className="object-contain scale-115 group-hover:scale-125 transition-transform duration-300"
                 />
               </div>
               <div className="flex flex-col">
@@ -36,7 +38,7 @@ export default function Navbar({ session }) {
             </Link>
           </div>
 
-          {/* 2. CENTRAL NAVIGATION */}
+          {/* 2. CENTRAL NAVIGATION (Button Pill Style) */}
           <div className="hidden md:flex items-center bg-emerald-900/50 rounded-2xl p-1.5 border border-white/5">
             {[
               { name: 'Home', href: '/' },
@@ -59,7 +61,6 @@ export default function Navbar({ session }) {
 
           {/* 3. USER ACTIONS */}
           <div className="flex items-center gap-4">
-            {/* Status Badge */}
             <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-emerald-900/80 rounded-full border border-emerald-700/50 text-[10px] font-bold text-amber-400">
                <span className="relative flex h-2 w-2">
                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
@@ -70,7 +71,6 @@ export default function Navbar({ session }) {
 
             {session ? (
               <div className="flex items-center gap-3">
-                {/* Dashboard Button with High Contrast Text */}
                 <Link 
                   href="/dashboard/client" 
                   className="bg-amber-400 hover:bg-amber-300 text-emerald-950 font-black px-6 py-2.5 rounded-xl text-xs tracking-wider transition-all shadow-[0_0_15px_rgba(251,191,36,0.2)] active:scale-95 border-b-4 border-amber-600 hover:border-amber-500"
@@ -78,10 +78,9 @@ export default function Navbar({ session }) {
                   DASHBOARD
                 </Link>
 
-                {/* Professional Logout Button */}
                 <button 
                   onClick={() => signOut({ callbackUrl: '/login' })}
-                  className="flex items-center justify-center w-11 h-11 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 group"
+                  className="flex items-center justify-center w-11 h-11 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 group shadow-lg shadow-red-900/20"
                   title="Logout"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform">
@@ -103,7 +102,6 @@ export default function Navbar({ session }) {
               </div>
             )}
           </div>
-
         </div>
       </div>
     </nav>
