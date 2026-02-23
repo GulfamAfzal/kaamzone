@@ -60,18 +60,19 @@ model WorkerProfile {
 }
 
 model Job {
-  id       String @id @default(uuid())
-  clientId String
-  client   User   @relation(fields: [clientId], references: [id])
-
-  title     String
-  category  String
-  city      String
-  budget    Decimal
-  urgency   String    @default("Standard")
-  status    JobStatus @default(OPEN)
-  createdAt DateTime  @default(now())
-
+  id          String    @id @default(uuid())
+  clientId    String
+  client      User      @relation(fields: [clientId], references: [id])
+  
+  title       String
+  category    String    
+  city        String
+  budget      Decimal
+  urgency     String    @default("Standard")
+  description String    @db.Text   // <-- This is the newly added line!
+  status      JobStatus @default(OPEN)
+  createdAt   DateTime  @default(now())
+  
   applications Application[]
   payment      Payment?
 }
