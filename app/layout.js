@@ -1,28 +1,16 @@
 // app/layout.js
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "../components/Navbar"; // Import your new Navbar
+import { auth } from '@/auth';
+import Navbar from '@/components/Navbar';
+import './globals.css';
 
-// Configure the Inter font
-const inter = Inter({ 
-  subsets: ["latin"],
-  variable: '--font-inter',
-});
+export default async function RootLayout({ children }) {
+  const session = await auth();
 
-export const metadata = {
-  title: "KaamZone | Digital Labor Marketplace",
-  description: "Secure, Nationwide Labor Marketplace in Pakistan",
-};
-
-export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans bg-slate-50 antialiased`}>
-        {/* The Navbar will now sit at the top of every page */}
-        <Navbar /> 
-        <main>
-          {children}
-        </main>
+      <body className="antialiased selection:bg-emerald-100 selection:text-emerald-900">
+        <Navbar session={session} />
+        {children}
       </body>
     </html>
   );
