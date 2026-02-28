@@ -24,7 +24,7 @@ export default function Navbar({ session }) {
                   width={48}
                   height={48}
                   // Increased internal scale to 115% for that "very little bit" zoom
-                  className="object-contain scale-115 group-hover:scale-125 transition-transform duration-300"
+                  className="object-contain scale-90 group-hover:scale-125 transition-transform duration-300"
                 />
               </div>
               <div className="flex flex-col">

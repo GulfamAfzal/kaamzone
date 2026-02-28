@@ -51,7 +51,7 @@ export default function RegisterPage() {
                 alt="KaamZone Logo" 
                 width={120} 
                 height={120} 
-                className="object-contain scale-125" 
+                className="object-contain scale-100" 
               />
             </div>
             

@@ -67,7 +67,7 @@ export default function LoginPage() {
                 alt="KaamZone Logo" 
                 width={120} 
                 height={120} 
-                className="object-contain scale-125" 
+                className="object-contain scale-100" 
               />
             </div>
             
@@ -111,7 +111,7 @@ export default function LoginPage() {
           <div className="mt-8 text-center border-t border-emerald-200 pt-6">
             <p className="text-sm text-emerald-900 font-bold">
               Need an account? {' '}
-              <Link href="/register" className="text-emerald-700 font-black hover:underline underline-offset-4 decoration-2">Create one</Link>
+              <Link href="/" className="text-emerald-700 font-black hover:underline underline-offset-4 decoration-2">Create one</Link>
             </p>
           </div>
         </div>
